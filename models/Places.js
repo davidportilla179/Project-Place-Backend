@@ -1,5 +1,6 @@
 //Definiendo nuestro esquema de places
 const {Schema, model} = require('mongoose');
+const { schema } = require('./User');
 
 
 const placeSchema =  new Schema({
@@ -19,6 +20,10 @@ const placeSchema =  new Schema({
         type: String,
         required: true
     },
+    city: {
+        type: String,
+        required: true
+    },
     country: {
         type: String,
         required: true
@@ -35,14 +40,53 @@ const placeSchema =  new Schema({
         type: String,
         required: true
     },
-    comments: {
-        type: Array,
-        required: false
-    },
+    comments: [{
+        user: {
+            type:Schema.Types.ObjectId,
+            ref: 'user'
+            },
+        comment : {
+            type: String,
+            required: true
+        },
+    }],
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    tags: {
+        type: Array,
+        required: false
+    },
+    zoom: {
+        type: String,
+        required:true
+    },
+    height:{
+        type:String,
+        required:true
+    },
+    mapPosition : {
+        lat: {
+            type: String,
+            required: true
+        },
+        lng: {
+            type: String,
+            required: true
+        }
+    },
+    marketPosition : {
+        lat: {
+            type: String,
+            required: true
+        },
+        lng: {
+            type: String,
+            required: true
+        }
     }
+
 });
 
 

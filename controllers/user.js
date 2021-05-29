@@ -64,7 +64,7 @@ const createUser = async(req, res = response) =>{
 
 const getUsers = async(req, res = response) =>{
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find().populate('posts').select("-password");
     console.log(users);
     res.status(200).json({
         ok: true,

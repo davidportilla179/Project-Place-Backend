@@ -32,32 +32,33 @@ const userSchema = new Schema({
   },
   profilePhoto: {
     type: String,
-    required: false
+    required: true
   },
   coverPhoto: {
     type: String,
-    required: false
+    required: true
   },
   information: {
     type: String,
-    required: false
+    required: true
   },
   friends:{
     type: String,
-    required: false
+    required: true
   },
   followers: {
     type: String,
-    required: false
+    required: true
   },
   followed: {
     type: String,
-    required: false
+    required: true
   },
   posts: {
-    type: Schema.Types.ObjectId,
-    ref: 'Post'
-  }
+   type: [Schema.Types.ObjectId],
+   ref: 'Place'
+
+  },
 
 });
 
