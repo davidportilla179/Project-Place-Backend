@@ -1,19 +1,27 @@
 const router = require('express').Router();
+
 const {
   createUser,
   getUsers,
   editUser,
   deleteUser,
-  logIn
+  logIn,
+  updateUser
 } = require('../controllers/user');
 
-const { auth } = require('./auth');
+//Middlewares
+const { tokenValidated } = require('../middlewares/tokenValidated');
 
-router.get('/', auth.require, getUsers);
-router.get('/:id', getUsers);
+//tokenValidated --- Aplica para todos
+// router.use(tokenValidated)
+
+
+router.get('/', tokenValidated,getUsers);
+// router.get('/:id', getUsers);
 router.post('/', createUser);
-router.post('/login', logIn);
-router.put('/:id', auth.require, editUser);
-router.delete('/:id', auth.require, deleteUser);
+// router.post('/login', logIn);
+router.put('/:id', tokenValidated, updateUser);
+
+router.delete('/:id', tokenValidated, deleteUser);
 
 module.exports = router;

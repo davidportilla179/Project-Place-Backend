@@ -1,10 +1,15 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
-router.get('/', (req, res)=>{
-  res.send('Welcome to PLCS API');
+//Definimos el comportamiento raiz del endpoint
+router.get('/', (req, res) =>{
+  res.send('Bienvenidos a PLACES.INC, aqui inicia nuestro servidor');
 });
 
+
+//Definimos las rutas a nuestras collecciones
+router.use('/auth', require('./auth'));
 router.use('/users', require('./users'));
-// router.use('/places', require('./users'));
+router.use('/places', require('./places'));
+
 
 module.exports = router;

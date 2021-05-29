@@ -1,32 +1,16 @@
-const jwt = require('express-jwt');
-const secret = require('../config').secret;
+const router = require('express').Router();
+const {check} = require('express-validator'); //CHECK para validar campos
 
-// Obtenemos el jwt del header de la petición y verificamos su existencia.
-function getTokenFromHeader(req) {
-  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Token' ||
-    req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
-    return req.headers.authorization.split(' ')[1];
-  }
+const {
+  loginUser,
+  revalidateToken
+} = require('../controllers/auth');
+const { tokenValidated } = require('../middlewares/tokenValidated');
 
-  return null;
-}
 
-const auth = {
-  require: jwt({
-    secret: secret,
-    algorithms: ['HS256'],
-    userProperty: 'user',
-    getToken: getTokenFromHeader
-  }),
-  optional: jwt({
-    secret: secret,
-    algorithms: ['HS256'],
-    userProperty: 'user',
-    credentialsRequired: false,
-    getToken: getTokenFromHeader
-  })
-};
 
-module.exports = {
-  auth
-};
+router.post('/', loginUser);
+router.get('/', tokenValidated, revalidateToken)
+
+
+module.exports = router;
