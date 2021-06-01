@@ -21,9 +21,6 @@ app.use(cors());
 app.use(express.json());
 
 
-//rutas
-// app.use()
-
 app.use('/PLACE', require('./routes'))
 
 app.listen(process.env.PORT,()=>{

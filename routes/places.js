@@ -2,6 +2,8 @@
 const router = require('express').Router();
 //Middleware Validacion del JWT
 const {tokenValidated} = require('../middlewares/tokenValidated');
+//Middleware validar campos
+const {validarCampos} =  require('../helpers/validarCampos')
 //Middleware Check
 const {check} = require('express-validator');
 
@@ -17,7 +19,13 @@ deletePlace
 router.use(tokenValidated);
 
 //Agregar nuevo place
-router.post('/',addNewPlace);
+router.post('/',[
+    check('place', 'El nombre del lugar no puede estar vacio').notEmpty(),
+    check('image', 'Url de la imagen vacia').notEmpty(),
+    check('address', 'Direccion vacia').notEmpty(),
+    check('city', 'City esta vacia').notEmpty(),
+    check('country', 'Country esta vacia').notEmpty(), 
+],addNewPlace);
 
 //Consultando los places
 router.get('/', getPLaces);

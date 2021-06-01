@@ -30,6 +30,10 @@ const userSchema = new Schema({
     type:String,
     required: true
   },
+  age: {
+    type:String,
+    required: true
+  },
   profilePhoto: {
     type: String,
     required: true
