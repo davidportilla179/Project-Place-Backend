@@ -8,7 +8,8 @@ const {
   editUser,
   deleteUser,
   logIn,
-  updateUser
+  updateUser,
+  getUserById
 } = require('../controllers/user');
 
 //Middlewares
@@ -17,6 +18,9 @@ const {validarCampos} = require('../helpers/validarCampos');
 
 
 router.get('/', tokenValidated,getUsers);
+
+
+router.get('/:id', tokenValidated,getUserById);
 
 //Nuevo usuario
 router.post('/',[

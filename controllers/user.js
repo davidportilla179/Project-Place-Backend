@@ -10,18 +10,28 @@ const {generarToken} = require('../helpers/generarJWT');
 
 const createUser = async(req, res = response) =>{
   //Validacion de existencia en la base
-  const {email, password} = req.body;
+  const {email, password, userName} = req.body;
   console.log(req.body);
 
   try {
     //Buscando el la base di existe un usuario registrado con el correo
     //de la peticion
     let usuario = await User.findOne({email});
+    
 
     if(usuario){
       res.status(400).json({
         ok: false,
         msg: 'Correo electronico duplicado, un usuario cuenta con esta informacion'
+      })
+    }
+
+    usuario = await User.findOne({userName});
+
+    if(usuario){
+      res.status(400).json({
+        ok: false,
+        msg: 'Username existente, prueba con otro'
       })
     }
 
@@ -78,6 +88,26 @@ const getUsers = async(req, res = response) =>{
       })
   }
 };
+
+
+const getUserById = async(req, res =response) =>{
+    const id = req.params.id;
+
+    
+    try {
+    const user = await User.findById(id).populate('posts').select("-password");
+    res.status(200).json({
+        ok: true,
+        user : user
+    })
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({
+          ok: false,
+          msg: 'Error al traer los usuarios'
+      })
+  }
+}
 
 const updateUser = async(req, res= response)=>{
   //Extrayendo el id de el parametro
@@ -168,6 +198,7 @@ const deleteUser = async(req, res = response) =>{
 module.exports = { 
   createUser,
   getUsers,
+  getUserById,
   updateUser,
   deleteUser
 }

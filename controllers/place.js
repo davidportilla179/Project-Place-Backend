@@ -33,7 +33,7 @@ const addNewPlace = async(req, res = response) =>{
 
 const getPLaces = async(req, res = response)=>{
     try {
-        const places = await Place.find().populate('user', '_id userName firstName lastName')
+        const places = await Place.find().populate('user', '_id userName firstName lastName profilePhoto followers posts')
                                          .populate({path: 'comments', populate:{path: 'user', select:'_id userName profilePhoto' ,model: 'User'}})
     
         res.json({
