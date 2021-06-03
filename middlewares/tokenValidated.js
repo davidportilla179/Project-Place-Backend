@@ -22,6 +22,7 @@ const tokenValidated = (req, res = response, next) =>{
         //Agregando el uid y userName a la peticion
         req.uid = payload.uid; 
         req.userName = payload.userName;
+        req.profilePhoto = payload.profilePhoto;
 
     } catch (error) {
         return res.status(401).json({

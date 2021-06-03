@@ -1,7 +1,9 @@
 //Importando el router de express
 const {response} = require('express');
+
 //Importando el modelo place
 const Place = require('../models/Places');
+const User = require('../models/User');
 
 
 const addNewPlace = async(req, res = response) =>{
@@ -15,6 +17,20 @@ const addNewPlace = async(req, res = response) =>{
     try {
         //Guardando en la base de datos
         const newPlace = await place.save();
+        console.log('id del nuevo lugar',newPlace._id);
+
+        //Agregandolo el post al usuario
+        //1.- Extrayendo el los post del ususario
+        const user = await User.findById(uid).select('posts')
+        
+        //2.- Actualizando los posts
+        const postActualizados = {
+            posts : [...user.posts, newPlace._id]
+        }
+        //3.- Actualizando los posts del usuario
+        const usuarioPostUsuario = await User.findByIdAndUpdate(uid,postActualizados,{new: true});
+        console.log(usuarioPostUsuario);
+
         //Devolviendo respuesta
         res.status(201).json({
             ok: true,
@@ -69,14 +85,13 @@ const updatePlace = async(req, res = response) =>{
             })
         };
 
-
-         //Verificando si el usuario es el mismo al que se desea eliminar
-        if(uid != place.user){
-            return res.status(301).json({
-            ok:false,
-            msg: `PlaceFailed, este place le pertenece a ${req.userName} y no es posible actualizarlo`,
-        })
-      }
+    //      //Verificando si el usuario es el mismo al que se desea eliminar
+    //     if(uid != place.user){
+    //         return res.status(301).json({
+    //         ok:false,
+    //         msg: `PlaceFailed, este place le pertenece a ${req.userName} y no es posible actualizarlo`,
+    //     })
+    //   }
 
         const PlaceActualizado = {
             ...req.body,

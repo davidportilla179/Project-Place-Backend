@@ -35,14 +35,13 @@ const loginUser = async(req, res= response) =>{
         };
 
         //Generando nuestro JWT
-        const token = await generarToken(usuario.id, usuario.userName);
+        const token = await generarToken(usuario.id, usuario.userName, usuario.profilePhoto);
 
         res.status(200).json({
             ok: true,
             uid: usuario.id,
             userName: usuario.userName,
-            firstName: usuario.firstName,
-            lastName: usuario.lastName,
+            profilePhoto: usuario.profilePhoto,
             token
             
         })
@@ -61,8 +60,8 @@ const loginUser = async(req, res= response) =>{
 
 const revalidateToken = async(req, res = response) =>{
     //Obteniendo el uid y userName del middleware tokenValidated
-    const {uid, userName} = req;
-
+    const {uid, userName, profilePhoto} = req;
+    console.log(profilePhoto);
     //Generar nuevo token
     const token = await generarToken(uid, userName);
 
@@ -71,6 +70,7 @@ const revalidateToken = async(req, res = response) =>{
         ok: true,
         uid,
         userName,
+        profilePhoto,
         token
     })
 }

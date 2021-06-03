@@ -49,6 +49,18 @@ const placeSchema =  new Schema({
             type: String,
             required: true
         },
+        likes: {
+            type: String,
+            required: true
+        },
+        likeMe: {
+            type: Boolean,
+            required: true
+        },
+        date: {
+            type: String,
+            required: true
+        }
     }],
     user: {
         type: Schema.Types.ObjectId,
