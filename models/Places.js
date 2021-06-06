@@ -29,16 +29,12 @@ const placeSchema =  new Schema({
         required: true
     },
     likes: {
-        type: String,
-        required: true
-    },
-    likeMe: {
-        type: Boolean,
-        required: true
+        type: [Schema.Types.ObjectId],
+        ref: 'User'
     },
     visitors: {
-        type: String,
-        required: true
+        type: [Schema.Types.ObjectId],
+        ref: 'User'
     },
     comments: [{
         user: {
@@ -50,11 +46,7 @@ const placeSchema =  new Schema({
             required: true
         },
         likes: {
-            type: String,
-            required: true
-        },
-        likeMe: {
-            type: Boolean,
+            type: Array,
             required: true
         },
         date: {
@@ -97,6 +89,10 @@ const placeSchema =  new Schema({
             type: String,
             required: true
         }
+    },
+    date: {
+        type: String,
+        required: true
     }
 
 });

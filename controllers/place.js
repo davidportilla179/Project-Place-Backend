@@ -17,12 +17,12 @@ const addNewPlace = async(req, res = response) =>{
     try {
         //Guardando en la base de datos
         const newPlace = await place.save();
-        console.log('id del nuevo lugar',newPlace._id);
+        console.log('nuevo lugar',newPlace);
 
         //Agregandolo el post al usuario
         //1.- Extrayendo el los post del ususario
         const user = await User.findById(uid).select('posts')
-        
+        console.log('Usuario al que le sera agregado el post',user);
         //2.- Actualizando los posts
         const postActualizados = {
             posts : [...user.posts, newPlace._id]
@@ -51,6 +51,7 @@ const getPLaces = async(req, res = response)=>{
     try {
         const places = await Place.find().populate('user', '_id userName firstName lastName profilePhoto followers posts')
                                          .populate({path: 'comments', populate:{path: 'user', select:'_id userName profilePhoto' ,model: 'User'}})
+                                         .populate('likes', ' userName')
     
         res.json({
             ok: true,
