@@ -52,6 +52,7 @@ const getPLaces = async(req, res = response)=>{
         const places = await Place.find().populate('user', '_id userName firstName lastName profilePhoto followers posts')
                                          .populate({path: 'comments', populate:{path: 'user', select:'_id userName profilePhoto' ,model: 'User'}})
                                          .populate('likes', ' userName')
+                                         .populate('visitors', ' userName, profilePhoto')
     
         res.json({
             ok: true,
@@ -95,8 +96,7 @@ const updatePlace = async(req, res = response) =>{
     //   }
 
         const PlaceActualizado = {
-            ...req.body,
-            user: uid
+            ...req.body
         }
 
         const actualizacion = await Place.findByIdAndUpdate(placeId,PlaceActualizado, {new: true});
