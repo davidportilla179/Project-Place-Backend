@@ -52,7 +52,7 @@ const getPLaces = async(req, res = response)=>{
         const places = await Place.find().populate('user', '_id userName firstName lastName profilePhoto followers posts')
                                          .populate({path: 'comments', populate:{path: 'user', select:'_id userName profilePhoto' ,model: 'User'}})
                                          .populate('likes', ' userName')
-                                         .populate('visitors', ' userName, profilePhoto')
+                                         .populate('visitors', ' userName profilePhoto')
     
         res.json({
             ok: true,
@@ -73,6 +73,7 @@ const getPLaces = async(req, res = response)=>{
 const updatePlace = async(req, res = response) =>{
     //Extrayendo el id de los lugares
     const placeId = req.params.id;
+    console.log(req.body);
     
     const {uid} = req;
 
@@ -86,14 +87,6 @@ const updatePlace = async(req, res = response) =>{
                 msg: 'El Place no esta registrado en la base de datos'
             })
         };
-
-    //      //Verificando si el usuario es el mismo al que se desea eliminar
-    //     if(uid != place.user){
-    //         return res.status(301).json({
-    //         ok:false,
-    //         msg: `PlaceFailed, este place le pertenece a ${req.userName} y no es posible actualizarlo`,
-    //     })
-    //   }
 
         const PlaceActualizado = {
             ...req.body
